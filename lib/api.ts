@@ -59,18 +59,24 @@ export const authApi = {
 
 // Documents APIs
 export const documentsApi = {
-  upload: (file: File) => {
+  upload: (file: File, folderId?: string) => {
     const formData = new FormData();
     formData.append('file', file);
+    if (folderId) {
+      formData.append('folderId', folderId);
+    }
     return api.post('/documents/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
   },
-  uploadMultiple: (files: File[]) => {
+  uploadMultiple: (files: File[], folderId?: string) => {
     const formData = new FormData();
     files.forEach((file) => formData.append('files', file));
+    if (folderId) {
+      formData.append('folderId', folderId);
+    }
     return api.post('/documents/upload/multiple', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -82,6 +88,49 @@ export const documentsApi = {
   getById: (id: string) => api.get(`/documents/${id}`),
   delete: (id: string) => api.delete(`/documents/${id}`),
   reindex: () => api.post('/documents/reindex'),
+};
+
+// Folders API
+export const foldersApi = {
+  create: (data: { name: string; description?: string; parentId?: string }) =>
+    api.post('/folders', data),
+  
+  getAll: (tree?: boolean) => 
+    api.get('/folders', { params: { tree: tree ? 'true' : undefined } }),
+  
+  getById: (id: string) => 
+    api.get(`/folders/${id}`),
+  
+  getContents: (folderId?: string) =>
+    api.get('/folders/contents', { params: { folderId } }),
+  
+  getPath: (id: string) =>
+    api.get(`/folders/${id}/path`),
+  
+  update: (id: string, data: { name?: string; description?: string; parentId?: string }) =>
+    api.put(`/folders/${id}`, data),
+  
+  delete: (id: string, force?: boolean) =>
+    api.delete(`/folders/${id}`, { params: { force: force ? 'true' : undefined } }),
+  
+  move: (data: { folderIds?: string[]; documentIds?: string[]; targetFolderId?: string }) =>
+    api.post('/folders/move', data),
+  
+  search: (query: string) =>
+    api.get('/folders/search', { params: { q: query } }),
+};
+
+// Search API
+export const searchApi = {
+  search: (data: {
+    query: string;
+    folderId?: string;
+    includeSubfolders?: boolean;
+    limit?: number;
+  }) => api.post('/search', data),
+  
+  getStatsByCategory: () =>
+    api.get('/search/stats'),
 };
 
 // Chat APIs

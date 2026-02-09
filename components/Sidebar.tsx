@@ -71,7 +71,10 @@ export default function Sidebar() {
     
     try {
       const response = await chatApi.getSessions();
-      setSessions(response.data.data || []);
+      const sessionsData = response.data.data || [];
+      // Deduplicate sessions by ID before setting state
+      const uniqueSessions = Array.from(new Map(sessionsData.map((s: any) => [s.id, s])).values());
+      setSessions(uniqueSessions);
     } catch (error: any) {
       console.error('Failed to load sessions:', error);
       // Don't show error toast on 401 - the interceptor handles redirect
@@ -162,7 +165,7 @@ export default function Sidebar() {
             No chats yet. Start a new conversation!
           </div>
         ) : (
-          sessions.map((session) => (
+          Array.from(new Map(sessions.map(s => [s.id, s])).values()).map((session) => (
             <div
               key={session.id}
               onClick={() => handleSessionClick(session.id)}

@@ -37,6 +37,24 @@ export interface Document {
   fileName: string;
   status: 'processing' | 'completed' | 'failed';
   uploadedAt: string;
+  folderId?: string;
+  originalName?: string;
+  mimeType?: string;
+  size?: number;
+}
+
+export interface Folder {
+  id: string;
+  name: string;
+  description?: string;
+  parentId?: string;
+  parent?: Folder;
+  children?: Folder[];
+  documents?: Document[];
+  documentCount: number;
+  folderCount: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface AppState {
@@ -60,10 +78,15 @@ interface AppState {
   updateSession: (sessionId: string, messages: Message[]) => void;
   setSelectedModel: (model: 'gemini-2.5-flash' | 'gemini-2.5-pro' | 'gemini-2.5-flash-lite') => void;
 
-  // Documents
+  // Documents & Folders
   documents: Document[];
   setDocuments: (documents: Document[]) => void;
   addDocument: (document: Document) => void;
+  folders: Folder[];
+  setFolders: (folders: Folder[]) => void;
+  addFolder: (folder: Folder) => void;
+  currentFolderId: string | null;
+  setCurrentFolderId: (id: string | null) => void;
 
   // UI
   sidebarOpen: boolean;
@@ -109,11 +132,17 @@ export const useStore = create<AppState>()(
         })),
       setSelectedModel: (model) => set({ selectedModel: model }),
 
-      // Documents state
+      // Documents & Folders state
       documents: [],
       setDocuments: (documents) => set({ documents }),
       addDocument: (document) =>
         set((state) => ({ documents: [...state.documents, document] })),
+      folders: [],
+      setFolders: (folders) => set({ folders }),
+      addFolder: (folder) =>
+        set((state) => ({ folders: [...state.folders, folder] })),
+      currentFolderId: null,
+      setCurrentFolderId: (id) => set({ currentFolderId: id }),
 
       // UI state
       sidebarOpen: true,
