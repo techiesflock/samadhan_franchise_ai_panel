@@ -68,7 +68,7 @@ interface AppState {
   currentSessionId: string | null;
   messages: Message[];
   sessions: ChatSession[];
-  selectedModel: 'gemini-2.5-flash' | 'gemini-2.5-pro' | 'gemini-2.5-flash-lite';
+  selectedModel: 'gpt-4o-mini' | 'gpt-4o' | 'gpt-4-turbo' | 'gpt-3.5-turbo';
   setCurrentSession: (sessionId: string | null) => void;
   addMessage: (message: Message) => void;
   setMessages: (messages: Message[]) => void;
@@ -76,7 +76,7 @@ interface AppState {
   clearMessages: () => void;
   addSession: (session: ChatSession) => void;
   updateSession: (sessionId: string, messages: Message[]) => void;
-  setSelectedModel: (model: 'gemini-2.5-flash' | 'gemini-2.5-pro' | 'gemini-2.5-flash-lite') => void;
+  setSelectedModel: (model: 'gpt-4o-mini' | 'gpt-4o' | 'gpt-4-turbo' | 'gpt-3.5-turbo') => void;
 
   // Documents & Folders
   documents: Document[];
@@ -115,7 +115,7 @@ export const useStore = create<AppState>()(
       currentSessionId: null,
       messages: [],
       sessions: [],
-      selectedModel: 'gemini-2.5-flash',
+      selectedModel: 'gpt-4o-mini',
       setCurrentSession: (sessionId) => set({ currentSessionId: sessionId }),
       addMessage: (message) =>
         set((state) => ({ messages: [...state.messages, message] })),

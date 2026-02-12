@@ -3,10 +3,10 @@
 import React from 'react';
 import { Sparkles, Zap, Rocket, ChevronDown } from 'lucide-react';
 
-export type GeminiModel = 'gemini-2.5-flash' | 'gemini-2.5-pro' | 'gemini-2.5-flash-lite';
+export type OpenAIModel = 'gpt-4o-mini' | 'gpt-4o' | 'gpt-4-turbo' | 'gpt-3.5-turbo';
 
 interface ModelOption {
-  value: GeminiModel;
+  value: OpenAIModel;
   label: string;
   icon: React.ReactNode;
   description: string;
@@ -15,31 +15,38 @@ interface ModelOption {
 
 const modelOptions: ModelOption[] = [
   {
-    value: 'gemini-2.5-flash',
-    label: 'Flash',
+    value: 'gpt-4o-mini',
+    label: 'GPT-4o Mini',
     icon: <Zap className="w-4 h-4" />,
-    description: 'Balanced - Fast & Smart',
+    description: 'Fast & Affordable',
     color: 'text-blue-600 dark:text-blue-400',
   },
   {
-    value: 'gemini-2.5-pro',
-    label: 'Pro',
+    value: 'gpt-4o',
+    label: 'GPT-4o',
     icon: <Sparkles className="w-4 h-4" />,
-    description: 'Advanced - Deep Logic',
+    description: 'Most Capable',
     color: 'text-purple-600 dark:text-purple-400',
   },
   {
-    value: 'gemini-2.5-flash-lite',
-    label: 'Flash Lite',
+    value: 'gpt-4-turbo',
+    label: 'GPT-4 Turbo',
     icon: <Rocket className="w-4 h-4" />,
-    description: 'Fast - High Traffic',
+    description: 'Fast & Powerful',
     color: 'text-green-600 dark:text-green-400',
+  },
+  {
+    value: 'gpt-3.5-turbo',
+    label: 'GPT-3.5 Turbo',
+    icon: <Zap className="w-4 h-4" />,
+    description: 'Quick Responses',
+    color: 'text-gray-600 dark:text-gray-400',
   },
 ];
 
 interface ModelSelectorProps {
-  selectedModel: GeminiModel;
-  onModelChange: (model: GeminiModel) => void;
+  selectedModel: OpenAIModel;
+  onModelChange: (model: OpenAIModel) => void;
 }
 
 export default function ModelSelector({ selectedModel, onModelChange }: ModelSelectorProps) {
@@ -76,7 +83,7 @@ export default function ModelSelector({ selectedModel, onModelChange }: ModelSel
           <div className="absolute top-full mt-3 right-0 w-80 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl z-20 animate-slide-in overflow-hidden">
             <div className="p-3">
               <div className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase px-3 py-2 tracking-wider">
-                Select AI Model
+                Select OpenAI Model
               </div>
               {modelOptions.map((option) => (
                 <button
@@ -97,7 +104,7 @@ export default function ModelSelector({ selectedModel, onModelChange }: ModelSel
                       <span className="text-sm font-bold text-gray-900 dark:text-white">
                         {option.label}
                       </span>
-                      {option.value === 'gemini-2.5-flash' && (
+                      {option.value === 'gpt-4o-mini' && (
                         <span className="text-xs px-2 py-0.5 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-semibold shadow-sm">
                           Default
                         </span>
@@ -121,15 +128,15 @@ export default function ModelSelector({ selectedModel, onModelChange }: ModelSel
               <div className="text-xs text-gray-600 dark:text-gray-400 space-y-2">
                 <p className="flex items-start gap-2">
                   <Zap className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
-                  <span><strong className="text-gray-800 dark:text-gray-200">Flash:</strong> Best for most queries (recommended)</span>
+                  <span><strong className="text-gray-800 dark:text-gray-200">GPT-4o Mini:</strong> Best for most queries (recommended)</span>
                 </p>
                 <p className="flex items-start gap-2">
                   <Sparkles className="w-4 h-4 text-purple-500 flex-shrink-0 mt-0.5" />
-                  <span><strong className="text-gray-800 dark:text-gray-200">Pro:</strong> Complex reasoning & deep analysis</span>
+                  <span><strong className="text-gray-800 dark:text-gray-200">GPT-4o:</strong> Most advanced reasoning & analysis</span>
                 </p>
                 <p className="flex items-start gap-2">
                   <Rocket className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span><strong className="text-gray-800 dark:text-gray-200">Flash Lite:</strong> Fastest responses, lower cost</span>
+                  <span><strong className="text-gray-800 dark:text-gray-200">GPT-4 Turbo:</strong> Fast & powerful responses</span>
                 </p>
               </div>
             </div>

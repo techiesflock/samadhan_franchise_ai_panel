@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "AI Assistant - GPT Clone",
-  description: "AI Assistant powered by Google Gemini with RAG capabilities",
+  description: "AI Assistant powered by OpenAI with RAG capabilities",
 };
 
 export default function RootLayout({
